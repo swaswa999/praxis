@@ -20,7 +20,7 @@ export const viewport: Viewport = { themeColor: '#000000' };
 export const metadata: Metadata = {
   title: 'Praxis | Ask out loud. Keep working.',
   description:
-    'Talk to it with your hands full, phone still in your pocket. Get the spec, the diagram, the next check — and finish the job without calling your supervisor. For HVAC, refrigeration and electrical techs. Join the early access waitlist.',
+    'A wearable AI assistant for the skilled trades. Ask for the spec, the diagram, or the next check with your hands on the work and your phone in your pocket. Join the early access waitlist.',
 };
 
 export default function RootLayout({

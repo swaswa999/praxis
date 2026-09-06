@@ -300,9 +300,10 @@ export default function Home() {
               <span className="silver-text">Keep working.</span>
             </h1>
             <p className="hero-description">
-              Talk to it with your hands full, phone still in your pocket.
-              <br className="desktop-break" /> Get the spec, the diagram, the
-              next check — and finish the job without calling your supervisor.
+              A wearable AI assistant for the skilled trades.
+              <br className="desktop-break" /> Ask for the spec, the diagram,
+              or the next check with your hands on the work and your phone in
+              your pocket.
             </p>
             <Waitlist id="waitlist" />
           </div>
@@ -373,6 +374,15 @@ export default function Home() {
               <p>
                 A second-year tech handles a first-year problem. Your best
                 people stay on the jobs that actually need them.
+              </p>
+            </article>
+            <article className="silver-frame learning-card">
+              <span className="learning-label">03 / FOR PHYSICAL AI</span>
+              <h3>Train hardware on real work.</h3>
+              <p>
+                With separate permission from shops and participating techs,
+                recordings of tool use and physical tasks could help train
+                robots and other AI-powered hardware.
               </p>
             </article>
             <p className="consent-note">
