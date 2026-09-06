@@ -1,0 +1,284 @@
+.mechanical-hero {
+  --assembly-progress: 0;
+  --assembly-x: 0deg;
+  --assembly-y: 0deg;
+  position: relative;
+  min-width: 0;
+  padding: 8px 0 0 22px;
+  perspective: 1200px;
+}
+.assembly-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #aaa;
+  font:
+    12px var(--font-geist-mono),
+    monospace;
+  letter-spacing: 1.2px;
+}
+.assembly-topline > span:first-child {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.assembly-viewport {
+  position: relative;
+  height: 620px;
+  overflow: clip;
+}
+.assembly-stack {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-16deg) rotateY(var(--assembly-x))
+    rotateX(var(--assembly-y));
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+}
+.assembly-piece {
+  position: absolute;
+  inset: 0;
+  transform: translateY(calc(var(--piece-travel) * var(--assembly-progress)))
+    translateX(var(--piece-shift));
+  transition:
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.5s;
+  mix-blend-mode: screen;
+}
+.assembly-piece img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  filter: grayscale(1);
+  user-select: none;
+}
+.assembly-piece[data-selected='true'] {
+  filter: brightness(1.2);
+}
+.assembly-piece[data-muted='true'] {
+  opacity: 0.35;
+}
+.assembly-axis {
+  position: absolute;
+  width: 1px;
+  height: 88%;
+  left: 49%;
+  top: 6%;
+  background: repeating-linear-gradient(
+    to bottom,
+    #909aa03a 0 3px,
+    transparent 3px 10px
+  );
+  transform: rotate(-16deg);
+}
+.assembly-cross {
+  position: absolute;
+  color: #666d75;
+  font:
+    18px var(--font-geist-mono),
+    monospace;
+}
+.cross-a {
+  top: 8%;
+  left: 3%;
+}
+.cross-b {
+  bottom: 6%;
+  right: 6%;
+}
+.assembly-points {
+  position: absolute;
+  inset: 0;
+}
+.assembly-point {
+  position: absolute;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 4px 6px;
+  height: auto;
+  color: #aaa;
+  background: transparent;
+  border-radius: 0;
+  transform: translateY(calc(var(--point-travel) * var(--assembly-progress)));
+  transition:
+    color 0.3s,
+    transform 0.65s;
+}
+.assembly-point::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 8px);
+  width: 35px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #6d737b);
+  transition: width 0.3s;
+}
+.point-number {
+  display: grid;
+  place-items: center;
+  border: 1px solid #697079;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #080a0cd9;
+  font:
+    12px var(--font-geist-mono),
+    monospace;
+}
+.point-name {
+  width: 62px;
+  font-size: 13px;
+  text-align: left;
+}
+.assembly-point:hover,
+.assembly-point[aria-pressed='true'] {
+  color: white;
+}
+.assembly-point[aria-pressed='true'] .point-number {
+  background: #e6e9ed;
+  color: #090a0b;
+  border-color: white;
+  box-shadow: 0 0 25px #d1dbe52b;
+}
+.assembly-point[aria-pressed='true']::before {
+  width: 60px;
+  background: #bfc8d3;
+}
+.assembly-side-label {
+  position: absolute;
+  bottom: 16%;
+  left: 0;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  color: #71777f;
+  font:
+    11px var(--font-geist-mono),
+    monospace;
+  letter-spacing: 1.8px;
+}
+.assembly-caption {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0 0;
+  border-top: 1px solid #2a2b2d;
+  min-height: 92px;
+}
+.assembly-caption-label {
+  font:
+    12px var(--font-geist-mono),
+    monospace;
+  letter-spacing: 1px;
+  color: #bbb;
+}
+.assembly-caption p {
+  margin: 8px 0 0;
+  color: #999;
+  font-size: 14px;
+  line-height: 1.5;
+  max-width: 360px;
+}
+.assembly-reset {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border: 1px solid #373a3e;
+  border-radius: 50%;
+  color: #c0c7d0;
+  background: #0b0c0e;
+}
+.assembly-reset:disabled {
+  opacity: 0.3;
+}
+@media (min-width: 1600px) {
+  .assembly-viewport {
+    height: 700px;
+  }
+  .mechanical-hero {
+    padding-left: 35px;
+  }
+}
+@media (max-width: 1100px) {
+  .assembly-viewport {
+    height: 550px;
+  }
+  .point-name {
+    display: none;
+  }
+  .assembly-point {
+    right: -6px;
+  }
+  .assembly-point::before {
+    width: 20px;
+  }
+  .mechanical-hero {
+    padding-left: 10px;
+  }
+  .assembly-side-label {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .mechanical-hero {
+    padding: 0;
+    width: 100%;
+    max-width: 530px;
+    margin: 0 auto;
+  }
+  .assembly-viewport {
+    height: 550px;
+  }
+  .assembly-stack {
+    inset: 0 10%;
+  }
+  .point-name {
+    display: block;
+  }
+  .assembly-point {
+    right: 0;
+  }
+  .assembly-topline {
+    padding-top: 12px;
+  }
+  .assembly-caption {
+    min-height: 102px;
+  }
+}
+@media (max-width: 400px) {
+  .assembly-viewport {
+    height: 485px;
+  }
+  .point-name {
+    width: 50px;
+    font-size: 12px;
+  }
+  .assembly-stack {
+    inset: 0 5%;
+  }
+  .assembly-point svg {
+    display: none;
+  }
+  .assembly-caption p {
+    font-size: 13px;
+  }
+  .assembly-caption-label {
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .assembly-stack,
+  .assembly-piece,
+  .assembly-point {
+    transition: none;
+  }
+  .assembly-stack {
+    transform: rotate(-16deg);
+  }
+}

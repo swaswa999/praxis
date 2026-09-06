@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1788633410278,
+      "tag": "0000_opposite_wilson_fisk",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1788634026561,
+      "tag": "0001_icy_gateway",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1788657061789,
+      "tag": "0002_solid_colonel_america",
+      "breakpoints": true
+    }
+  ]
+}
