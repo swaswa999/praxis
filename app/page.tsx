@@ -295,24 +295,20 @@ export default function Home() {
           <div className="hero-copy">
             <div className="eyebrow">BUILT FOR THE HANDS THAT BUILD.</div>
             <h1 id="headline">
-              Experience
+              Ask out loud.
               <br />
-              at your side.
-              <br />
-              <span className="silver-text">On every job.</span>
+              <span className="silver-text">Keep working.</span>
             </h1>
             <p className="hero-description">
-              An AI copilot for the skilled trades.
-              <br />
-              Built to put practical knowledge at your side,
-              <br className="desktop-break" /> so you can work through more on
-              your own.
+              Talk to it with your hands full, phone still in your pocket.
+              <br className="desktop-break" /> Get the spec, the diagram, the
+              next check — and finish the job without calling your supervisor.
             </p>
             <Waitlist id="waitlist" />
           </div>
           <MechanicalHero />
           <div className="hero-baseline">
-            <span>HUMAN SKILL. MACHINE INTELLIGENCE.</span>
+            <span>HVAC · REFRIGERATION · ELECTRICAL</span>
             <a href="#approach">
               A closer look <ArrowDown size={14} />
             </a>
@@ -324,7 +320,7 @@ export default function Home() {
           aria-labelledby="approach-heading"
         >
           <div className="section-top reveal">
-            <p className="eyebrow">01 / THE APPROACH</p>
+            <p className="eyebrow">01 / HOW IT WORKS</p>
           </div>
           <h2 className="reveal" id="approach-heading">
             See the equipment.
@@ -346,47 +342,46 @@ export default function Home() {
               <span>Not your replacement.</span>
             </h2>
             <p className="people-description">
-              We’re building Praxis to put practical knowledge within reach,
-              helping technicians learn on the job and handle more
-              independently. Newer team members can understand the reasoning
-              behind each step, with fewer routine questions for a supervisor.
+              Praxis explains the reasoning behind a step, not just the step. A
+              newer tech learns why the reading matters while they take it — and
+              asks their supervisor one less question every job.
             </p>
             <figure className="founder-note">
-              <p className="learning-label">WHY WE’RE BUILDING PRAXIS</p>
+              <p className="learning-label">WHY WE STARTED</p>
               <blockquote>
                 We like to work on our stuff, and we keep running into the same
                 gap: AI falls short when our hands are greasy, we can’t reach
-                our phones, or the problem doesn’t fit a familiar pattern.
-                That’s why we’re building Praxis.
+                our phones, or the problem doesn’t fit a familiar pattern. Every
+                shop has someone who just knows. We want them in your ear on
+                every call. That’s why we’re building Praxis.
               </blockquote>
-              <figcaption>The Praxis team</figcaption>
+              <figcaption>Guhan &amp; Swayam</figcaption>
             </figure>
           </div>
           <div className="learning-copy reveal">
-            <p className="eyebrow">SUPPORT THAT FITS THE JOB</p>
             <article className="silver-frame learning-card">
-              <span className="learning-label">01 / HANDS ON THE WORK</span>
+              <span className="learning-label">01 / FOR THE TECH</span>
               <h3>Help when your hands are full.</h3>
               <p>
-                A useful assistant should fit around the job. We’re designing
-                Praxis for the moments when stopping to type or pick up a phone
-                just isn’t practical.
+                Stopping to type or scroll isn’t practical on a ladder or behind
+                a unit. Praxis answers by voice, so both hands stay on the work.
               </p>
             </article>
             <article className="silver-frame learning-card">
-              <span className="learning-label">02 / KNOWLEDGE THAT SCALES</span>
-              <h3>Grow the team’s capability.</h3>
+              <span className="learning-label">02 / FOR THE SHOP</span>
+              <h3>Fewer callbacks. Less senior time on junior questions.</h3>
               <p>
-                Help newer technicians get up to speed and keep senior staff
-                focused on the hardest jobs. We’re building toward teams that
-                can take on more work, with knowledge available across the
-                business.
+                A second-year tech handles a first-year problem. Your best
+                people stay on the jobs that actually need them.
               </p>
             </article>
             <p className="consent-note">
               Your work. Your permission. Joining this waitlist is not consent
               to AI training.{' '}
-              <a href="/privacy#training-data">How we plan to use training data</a>.
+              <a href="/privacy#training-data">
+                How we plan to use training data
+              </a>
+              .
             </p>
           </div>
         </section>
@@ -397,22 +392,20 @@ export default function Home() {
           onPointerLeave={resetSilver}
         >
           <div>
-            <p className="eyebrow">THE NEXT CHAPTER OF SKILLED WORK</p>
             <h2 id="closing-heading">
               <span className="closing-line closing-line-first">
-                Built with you.
+                Get in early.
               </span>
               <br />
               <span className="closing-line closing-line-next silver-text">
-                For what’s next.
+                Shape what it does.
               </span>
             </h2>
           </div>
           <div className="closing-right">
             <p>
-              Help shape a better way to work.
-              <br />
-              Join the waitlist for early access.
+              Tell us what breaks, what’s missing, and what you’d never use. We
+              build from there.
             </p>
             <a className="closing-link" href="#">
               Let’s get to work <ArrowRight size={22} />
@@ -424,7 +417,7 @@ export default function Home() {
         <a className="wordmark" href="#" translate="no">
           Praxis.
         </a>
-        <p>Intelligence for the physical world.</p>
+        <p>For HVAC, refrigeration and electrical techs.</p>
         <nav aria-label="Legal and contact">
           <a href="/privacy">Privacy</a>
           <a href="/terms">Website terms</a>

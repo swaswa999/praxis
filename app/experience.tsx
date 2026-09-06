@@ -8,21 +8,21 @@ const points = [
   {
     label: 'Identify',
     title: '“Which refrigerator is this?”',
-    copy: 'Praxis matches the model on the nameplate to its service manual, then asks you to confirm the unit before using its diagrams or specifications.',
+    copy: 'Praxis reads the nameplate, pulls that model’s service manual, and asks you to confirm the unit before it quotes a single spec.',
     x: 14,
     y: 29,
   },
   {
     label: 'Understand',
     title: '“It runs, but won’t stay cold.”',
-    copy: 'Praxis connects your observations with this model’s cooling-system reference and any service history you share, explaining what may be relevant and what still needs checking.',
+    copy: 'Praxis takes what you’re seeing, checks it against this model’s cooling system, and tells you what fits — and what you still need to rule out.',
     x: 83,
     y: 49,
   },
   {
     label: 'Act',
     title: '“What should I check next?”',
-    copy: 'Praxis explains the next relevant check from the service manual and why it matters, helping you work through the cooling issue and understand the reasoning as you go.',
+    copy: 'Praxis names the next check, tells you why it matters, and stays with you until the unit holds temperature.',
     x: 81,
     y: 83,
   },
@@ -34,7 +34,9 @@ export function EquipmentDemo() {
   return (
     <div className="approach-story reveal">
       <div className="approach-scene silver-frame">
-        <div className="approach-scene-label">REFRIGERATOR / CONCEPT EXAMPLE</div>
+        <div className="approach-scene-label">
+          REFRIGERATOR / CONCEPT EXAMPLE
+        </div>
         <div className="appliance-map">
           <RefrigeratorDiagram selected={selected} />
           <div role="group" aria-label="Explore the refrigerator">
@@ -54,14 +56,13 @@ export function EquipmentDemo() {
             ))}
           </div>
         </div>
-        <p className="appliance-hint">Select a point to explore</p>
+        <p className="appliance-hint">Tap a point</p>
       </div>
       <div className="approach-narrative">
         <p className="approach-summary">
-          Built for skilled trades and real work. We’re building an assistant
-          to draw on thousands of hours of field experience, bringing equipment
-          details and the right references together so you can understand the
-          job and work through the next step.
+          Read the nameplate, ask your question, get the right page of the
+          service manual. We’re building it with working technicians on real
+          equipment, so the answers hold up in the field.
         </p>
         <div
           id="appliance-context"

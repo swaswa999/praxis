@@ -82,10 +82,10 @@ export default function Privacy() {
           technicians over time.
         </p>
         <p>
-          A separate program could use recordings of tool use and physical
-          tasks to train robotics AI. Both the company and participating
-          workers would need to explicitly agree. Job footage would not
-          automatically be sold or shared for robotics training.
+          A separate program could use recordings of tool use and physical tasks
+          to train robotics AI. Both the company and participating workers would
+          need to explicitly agree. Job footage would not automatically be sold
+          or shared for robotics training.
         </p>
         <p>
           These are plans for future programs, not data collected by this

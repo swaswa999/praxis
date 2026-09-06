@@ -8,7 +8,7 @@ const parts = [
   {
     name: 'End cap',
     detail:
-      'Find the right reference. Praxis is being built to connect the part in view with the matching assembly drawing.',
+      'Ask which part you’re holding. Praxis pulls the assembly drawing that matches.',
     top: 0,
     bottom: 79.6,
     y: '12%',
@@ -17,7 +17,7 @@ const parts = [
   {
     name: 'Rotor',
     detail:
-      'Give symptoms context. Bring the noise, vibration, or wear you notice together with the motor’s service history.',
+      'Describe the noise. Praxis checks it against this motor’s service history and wear patterns.',
     top: 20.4,
     bottom: 51.2,
     y: '35%',
@@ -26,7 +26,7 @@ const parts = [
   {
     name: 'Stator',
     detail:
-      'Keep the source close. Bring your readings and observations alongside the manufacturer’s specifications.',
+      'Read out your meter. Praxis tells you whether it’s inside the manufacturer’s spec.',
     top: 48.8,
     bottom: 28.8,
     y: '60%',
@@ -35,7 +35,7 @@ const parts = [
   {
     name: 'Housing',
     detail:
-      'Keep your progress in view. Praxis is being built to connect the equipment details and what you’ve already checked with relevant guidance for the next step.',
+      'Say what you’ve already checked. Praxis picks up from there and names the next step.',
     top: 71.2,
     bottom: 0,
     y: '84%',
@@ -98,12 +98,6 @@ export function MechanicalHero() {
         event.currentTarget.style.setProperty('--assembly-y', '0deg');
       }}
     >
-      <div className="assembly-topline">
-        <span>
-          <span className="status-dot" /> A CLOSER LOOK
-        </span>
-        <span>01 / 04</span>
-      </div>
       <div className="assembly-viewport" data-inspecting={selected !== null}>
         <div className="assembly-cross cross-a" aria-hidden="true">
           +
@@ -169,9 +163,6 @@ export function MechanicalHero() {
             </Button>
           ))}
         </div>
-        <span className="assembly-side-label" aria-hidden="true">
-          CONTEXT IN EVERY COMPONENT
-        </span>
       </div>
       <div
         className="assembly-caption"
@@ -181,12 +172,12 @@ export function MechanicalHero() {
         <div>
           <span className="assembly-caption-label">
             {selected === null
-              ? 'INTELLIGENCE, GROUNDED.'
+              ? 'TAP A PART'
               : `0${selected + 1} / ${parts[selected].name.toUpperCase()}`}
           </span>
           <p>
             {selected === null
-              ? 'Choose a part. Look a little closer.'
+              ? 'Every part has a spec, a torque value, and a way it fails.'
               : parts[selected].detail}
           </p>
         </div>

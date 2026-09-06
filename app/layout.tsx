@@ -18,9 +18,9 @@ const geistMono = Geist_Mono({
 export const viewport: Viewport = { themeColor: '#000000' };
 
 export const metadata: Metadata = {
-  title: 'Praxis | A closer look.',
+  title: 'Praxis | Ask out loud. Keep working.',
   description:
-    'An AI copilot for the skilled trades. Built to put practical knowledge at your side, so you can work through more on your own. Join the early access waitlist.',
+    'Talk to it with your hands full, phone still in your pocket. Get the spec, the diagram, the next check — and finish the job without calling your supervisor. For HVAC, refrigeration and electrical techs. Join the early access waitlist.',
 };
 
 export default function RootLayout({
