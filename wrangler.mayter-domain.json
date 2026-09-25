@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mayter-domain",
+  "account_id": "5b153955f8399cf6ea37bbc21174fd1c",
+  "main": "cloudflare/mayter-domain.mjs",
+  "compatibility_date": "2026-09-25",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    { "pattern": "mayter.ai", "custom_domain": true },
+    { "pattern": "www.mayter.ai", "custom_domain": true }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 0.01,
+      "invocation_logs": true,
+      "persist": true
+    },
+    "traces": { "enabled": true, "head_sampling_rate": 0.01, "persist": true }
+  }
+}

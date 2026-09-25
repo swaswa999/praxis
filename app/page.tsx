@@ -1,450 +1,167 @@
-'use client';
-
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  type FormEvent,
-  type PointerEvent,
-} from 'react';
-import {
-  ArrowUpRight,
-  ArrowDown,
-  ArrowRight,
-  Check,
-  LoaderCircle,
-} from 'lucide-react';
-import { flushSync } from 'react-dom';
-import { PointerEffects } from './pointer-effects';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { EquipmentDemo } from './experience';
-import { MechanicalHero } from './motor-hero';
-import {
-  legal,
-  WAITLIST_CONSENT_TEXT,
-  WAITLIST_NOTICE_VERSION,
-} from './legal-config';
-
-function Waitlist({ id }: { id: string }) {
-  const [status, setStatus] = useState<'idle' | 'saving' | 'success' | 'error'>(
-    'idle',
-  );
-  const successMessage = useRef<HTMLDivElement>(null);
-  const inFlight = useRef(false);
-  const joinWaitlist = useCallback(
-    async (
-      email: string,
-      website = '',
-      source: 'website' | 'webmcp' = 'website',
-    ) => {
-      if (inFlight.current) throw new Error('A signup is already in progress');
-      inFlight.current = true;
-      setStatus('saving');
-      try {
-        const response = await fetch('/api/waitlist', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email,
-            website,
-            consent: true,
-            noticeVersion: WAITLIST_NOTICE_VERSION,
-            source,
-          }),
-          signal: AbortSignal.timeout(15000),
-        });
-        if (!response.ok) throw new Error('Could not join the waitlist');
-        flushSync(() => setStatus('success'));
-        successMessage.current?.focus({ preventScroll: true });
-        return { status: 'joined' };
-      } catch (error) {
-        setStatus('error');
-        throw error;
-      } finally {
-        inFlight.current = false;
-      }
-    },
-    [],
-  );
-  useEffect(() => {
-    const context = (
-      document as Document & {
-        modelContext?: {
-          registerTool: (
-            tool: unknown,
-            options: { signal: AbortSignal },
-          ) => void | Promise<void>;
-        };
-      }
-    ).modelContext;
-    if (!context?.registerTool) return;
-    const lifecycle = new AbortController();
-    try {
-      Promise.resolve(
-        context.registerTool(
-          {
-            name: 'join_waitlist',
-            title: 'Join the Praxis waitlist',
-            description:
-              'Join the Praxis early-access email waitlist only after the user agrees to the signup notice: ' +
-              WAITLIST_CONSENT_TEXT +
-              ' Privacy information is available at /privacy.',
-            inputSchema: {
-              type: 'object',
-              properties: {
-                email: { type: 'string', format: 'email', maxLength: 254 },
-                consent: {
-                  type: 'boolean',
-                  const: true,
-                  description: WAITLIST_CONSENT_TEXT,
-                },
-              },
-              required: ['email', 'consent'],
-              additionalProperties: false,
-            },
-            annotations: { readOnlyHint: false, untrustedContentHint: false },
-            async execute(input: unknown) {
-              if (
-                !input ||
-                typeof input !== 'object' ||
-                !('email' in input) ||
-                typeof input.email !== 'string' ||
-                !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.email) ||
-                input.email.length > 254 ||
-                !('consent' in input) ||
-                input.consent !== true
-              )
-                throw new Error(
-                  'A valid email and explicit agreement to early-access emails are required',
-                );
-              return joinWaitlist(input.email, '', 'webmcp');
-            },
-          },
-          { signal: lifecycle.signal },
-        ),
-      ).catch(() => {});
-    } catch {
-      /* Optional browser capability. */
-    }
-    return () => lifecycle.abort();
-  }, [joinWaitlist]);
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const data = new FormData(form);
-    try {
-      await joinWaitlist(
-        String(data.get('email') || ''),
-        String(data.get('website') || ''),
-      );
-    } catch {
-      /* The form keeps its values and displays a retry message. */
-    }
-  }
-  return (
-    <div className="signup" id={id}>
-      {status === 'success' ? (
-        <div
-          className="success"
-          role="status"
-          tabIndex={-1}
-          ref={successMessage}
-        >
-          <Check size={22} aria-hidden="true" />
-          <div>
-            <strong>You’re on the list.</strong>
-            <p>We’ll reach out when early access opens.</p>
-          </div>
-        </div>
-      ) : (
-        <form onSubmit={submit} aria-busy={status === 'saving'}>
-          <label className="field-label" htmlFor={`${id}-email`}>
-            Work email
-          </label>
-          <div className="email-row silver-frame">
-            <Input
-              id={`${id}-email`}
-              name="email"
-              type="email"
-              autoComplete="email"
-              inputMode="email"
-              spellCheck={false}
-              autoCapitalize="none"
-              placeholder="you@company.com"
-              maxLength={254}
-              required
-              aria-describedby={`${id}-privacy`}
-              className="email-input"
-              disabled={status === 'saving'}
-            />
-            <Button
-              className="join-button"
-              type="submit"
-              disabled={status === 'saving'}
-            >
-              {status === 'saving' ? (
-                <>
-                  <LoaderCircle
-                    className="loading-spinner"
-                    size={18}
-                    aria-hidden="true"
-                  />
-                  Joining…
-                </>
-              ) : (
-                <>
-                  Join the waitlist
-                  <ArrowUpRight size={18} aria-hidden="true" />
-                </>
-              )}
-            </Button>
-          </div>
-          <input
-            className="honeypot"
-            name="website"
-            tabIndex={-1}
-            autoComplete="off"
-            aria-hidden="true"
-          />
-          <p className="form-note" aria-live="polite">
-            {status === 'error'
-              ? 'Couldn’t save your details. Please try again.'
-              : 'Early access updates. No noise.'}
-          </p>
-        </form>
-      )}
-    </div>
-  );
-}
-
-function followSilver(event: PointerEvent<HTMLElement>) {
-  if (
-    event.pointerType === 'touch' ||
-    matchMedia('(prefers-reduced-motion: reduce)').matches
-  )
-    return;
-  event.currentTarget
-    .querySelectorAll<HTMLElement>('.silver-text')
-    .forEach((text) => {
-      text.style.setProperty(
-        '--silver-x',
-        `${event.clientX - text.getBoundingClientRect().left}px`,
-      );
-    });
-}
-
-function resetSilver(event: PointerEvent<HTMLElement>) {
-  event.currentTarget
-    .querySelectorAll<HTMLElement>('.silver-text')
-    .forEach((text) => {
-      text.style.removeProperty('--silver-x');
-    });
-}
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+import { Brand } from './brand';
+import { ServiceSystem } from './service-system';
+import { Waitlist } from './waitlist';
+import { ScrollDetails } from './scroll-details';
+import { TrainingSequence } from './training-sequence';
 
 export default function Home() {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            observer.unobserve(e.target);
-          }
-        }),
-      { threshold: 0.12 },
-    );
-    document.querySelectorAll('.reveal').forEach((el) => {
-      el.classList.add('will-reveal');
-      observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, []);
   return (
     <>
-      <PointerEffects />
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
-      <header className="nav shell">
+      <header id="top" className="mayter-nav shell">
         <a
           className="wordmark"
-          href="#"
-          aria-label="Praxis home"
+          href="#top"
+          aria-label="Mayter home"
           translate="no"
         >
-          <span className="brand-mark" aria-hidden="true">
-            ◈
-          </span>
-          Praxis<span className="brand-period">.</span>
+          <Brand />
         </a>
         <nav aria-label="Main navigation">
-          <a href="#" className="nav-cta">
-            Get early access <ArrowUpRight size={15} />
+          <a className="nav-section" href="#approach">
+            The system
+          </a>
+          <a className="nav-section" href="#robotics">
+            Training
+          </a>
+          <a className="nav-section" href="#company">
+            Company
+          </a>
+          <a className="nav-contact" href="#partner">
+            Let’s talk <ArrowUpRight size={17} aria-hidden="true" />
           </a>
         </nav>
       </header>
       <main id="main-content" tabIndex={-1}>
-        <section
-          className="hero shell"
-          aria-labelledby="headline"
-          onPointerMove={followSilver}
-          onPointerLeave={resetSilver}
-        >
-          <div className="hero-copy">
-            <div className="eyebrow">BUILT FOR THE HANDS THAT BUILD.</div>
-            <h1 id="headline">
-              Ask out loud.
-              <br />
-              <span className="silver-text">Keep working.</span>
-            </h1>
-            <p className="hero-description">
-              A wearable AI assistant for the skilled trades.
-              <br className="desktop-break" /> Ask for the spec, the diagram,
-              or the next check with your hands on the work and your phone in
-              your pocket.
-            </p>
-            <Waitlist id="waitlist" />
-          </div>
-          <MechanicalHero />
-          <div className="hero-baseline">
-            <span>HVAC · REFRIGERATION · ELECTRICAL</span>
-            <a href="#approach">
-              A closer look <ArrowDown size={14} />
-            </a>
-          </div>
-        </section>
-        <section
-          className="approach shell"
-          id="approach"
-          aria-labelledby="approach-heading"
-        >
-          <div className="section-top reveal">
-            <p className="eyebrow">01 / HOW IT WORKS</p>
-          </div>
-          <h2 className="reveal" id="approach-heading">
-            See the equipment.
-            <br />
-            <span>Understand the job.</span>
-          </h2>
-          <EquipmentDemo />
-        </section>
-        <section
-          className="people shell"
-          id="learning"
-          aria-labelledby="people-heading"
-        >
-          <div className="people-intro reveal">
-            <p className="eyebrow">02 / PEOPLE FIRST</p>
-            <h2 id="people-heading">
-              Your assistant.
-              <br />
-              <span>Not your replacement.</span>
-            </h2>
-            <p className="people-description">
-              Praxis explains the reasoning behind a step, not just the step. A
-              newer tech learns why the reading matters while they take it — and
-              asks their supervisor one less question every job.
-            </p>
-            <figure className="founder-note">
-              <p className="learning-label">WHY WE STARTED</p>
-              <blockquote>
-                We like to work on our stuff, and we keep running into the same
-                gap: AI falls short when our hands are greasy, we can’t reach
-                our phones, or the problem doesn’t fit a familiar pattern. Every
-                shop has someone who just knows. We want them in your ear on
-                every call. That’s why we’re building Praxis.
-              </blockquote>
-              <figcaption>Guhan &amp; Swayam</figcaption>
-            </figure>
-          </div>
-          <div className="learning-copy reveal">
-            <article className="silver-frame learning-card">
-              <span className="learning-label">01 / FOR THE TECH</span>
-              <h3>Help when your hands are full.</h3>
-              <p>
-                Stopping to type or scroll isn’t practical on a ladder or behind
-                a unit. Praxis answers by voice, so both hands stay on the work.
+        <ScrollDetails />
+        <section className="mayter-hero shell" aria-labelledby="headline">
+          <ServiceSystem>
+            <div className="landing-copy">
+              <h1 id="headline">
+                <span className="headline-line">
+                  <span>Robots for</span>
+                </span>
+                <span className="headline-line">
+                  <span>
+                    car service<span className="orange">.</span>
+                  </span>
+                </span>
+              </h1>
+              <p className="landing-description">
+                We’re building a rail-mounted robot with hot swappable tools,
+                powered by AI that learns from mechanics’ work.
               </p>
-            </article>
-            <article className="silver-frame learning-card">
-              <span className="learning-label">02 / FOR THE SHOP</span>
-              <h3>Fewer callbacks. Less senior time on junior questions.</h3>
-              <p>
-                A second-year tech handles a first-year problem. Your best
-                people stay on the jobs that actually need them.
-              </p>
-            </article>
-            <article className="silver-frame learning-card">
-              <span className="learning-label">03 / FOR PHYSICAL AI</span>
-              <h3>Train hardware on real work.</h3>
-              <p>
-                With separate permission from shops and participating techs,
-                recordings of tool use and physical tasks could help train
-                robots and other AI-powered hardware.
-              </p>
-            </article>
-            <p className="consent-note">
-              Your work. Your permission. Joining this waitlist is not consent
-              to AI training.{' '}
-              <a href="/privacy#training-data">
-                How we plan to use training data
+              <a className="action-link landing-link" href="#approach">
+                See the system <ArrowUpRight size={20} aria-hidden="true" />
               </a>
-              .
-            </p>
+            </div>
+          </ServiceSystem>
+        </section>
+        <section
+          className="technology-section"
+          id="robotics"
+          aria-labelledby="technology-heading"
+        >
+          <div className="shell">
+            <TrainingSequence />
           </div>
         </section>
         <section
-          className="closing shell reveal"
-          aria-labelledby="closing-heading"
-          onPointerMove={followSilver}
-          onPointerLeave={resetSilver}
+          className="company-section shell section-space"
+          id="company"
+          aria-labelledby="company-heading"
         >
-          <div>
-            <h2 id="closing-heading">
-              <span className="closing-line closing-line-first">
-                Get in early.
-              </span>
+          <div className="section-intro" data-reveal>
+            <h2 id="company-heading">
+              Start with
               <br />
-              <span className="closing-line closing-line-next silver-text">
-                Shape what it does.
-              </span>
+              our own shop.
             </h2>
-          </div>
-          <div className="closing-right">
             <p>
-              Tell us what breaks, what’s missing, and what you’d never use. We
-              build from there.
+              We’ve worked in dealerships and independent shops and spoken with
+              mechanics about hiring and backlogs. We’re building Mayter to help
+              shops take on work they don’t have the staff for.
             </p>
-            <a className="closing-link" href="#">
-              Let’s get to work <ArrowRight size={22} />
-            </a>
+          </div>
+          <div className="principles">
+            <div data-reveal>
+              <h3>Run a Mayter shop.</h3>
+              <p>
+                Service customers’ cars in a Mayter shop while developing and
+                testing the robot.
+              </p>
+            </div>
+            <div data-reveal>
+              <h3>Measure each job.</h3>
+              <p>
+                Track repair quality, time, cost, and how often a person needs
+                to step in.
+              </p>
+            </div>
+            <div data-reveal>
+              <h3>Supply other shops.</h3>
+              <p>
+                Once the system is reliable, offer it to independent shops,
+                dealerships, and fleets.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section
+          className="partner-section"
+          id="partner"
+          aria-labelledby="partner-heading"
+        >
+          <div className="shell partner-grid" data-reveal>
+            <div>
+              <h2 id="partner-heading">
+                Talk to us<span>.</span>
+              </h2>
+              <p>
+                Run a shop or fleet? Tell us which maintenance jobs you struggle
+                to keep up with.
+              </p>
+            </div>
+            <div className="partner-form">
+              <h3>Get updates.</h3>
+              <p>
+                Development progress and early-access announcements by email.
+              </p>
+              <Waitlist id="waitlist" />
+              <Link className="partner-contact" href="/contact">
+                Contact Mayter <ArrowUpRight size={17} aria-hidden="true" />
+              </Link>
+            </div>
           </div>
         </section>
       </main>
-      <footer className="shell site-footer">
-        <a className="wordmark" href="#" translate="no">
-          Praxis.
-        </a>
-        <p>For HVAC, refrigeration and electrical techs.</p>
-        <nav aria-label="Legal and contact">
-          <a href="/privacy">Privacy</a>
-          <a href="/terms">Website terms</a>
-          <a href="/contact">Contact</a>
-          <a href="/privacy#training-data">Training data</a>
-        </nav>
-        <a className="footer-contact" href={`mailto:${legal.email}`}>
-          {legal.email}
-        </a>
-        <span>© {new Date().getFullYear()} Praxis</span>
-        <p className="footer-privacy" id="waitlist-privacy">
-          By joining, you ask Praxis to email you about early access. Withdraw
-          anytime by emailing{' '}
-          <a href={`mailto:${legal.email}`}>{legal.email}</a>. This does not
-          give permission for AI training. <a href="/privacy">Privacy notice</a>
-          .
-        </p>
+      <footer className="mayter-footer shell">
+        <div className="footer-top">
+          <a
+            className="wordmark"
+            href="#top"
+            aria-label="Mayter home"
+            translate="no"
+          >
+            <Brand />
+          </a>
+          <a className="back-top" href="#top">
+            Back to top <ArrowUpRight size={17} aria-hidden="true" />
+          </a>
+        </div>
+        <div className="footer-bottom">
+          <span>© {new Date().getFullYear()} Mayter</span>
+          <nav aria-label="Legal and contact">
+            <Link href="/privacy">Privacy</Link>
+            <Link href="/terms">Terms</Link>
+            <Link href="/contact">Contact</Link>
+          </nav>
+          <span>Automotive robotics. In development.</span>
+        </div>
       </footer>
     </>
   );

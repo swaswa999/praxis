@@ -1,183 +1,152 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '../seo';
 import { LegalShell } from '../legal-shell';
 import { contactLink, legal } from '../legal-config';
 
 export const metadata: Metadata = {
-  title: 'Privacy | Praxis',
-  description: 'How the Praxis waitlist handles personal information.',
-  robots: { index: false, follow: true },
+  ...pageMetadata(
+    'Privacy | Mayter',
+    'What the Mayter website collects, how it is used, and how to request removal.',
+    '/privacy',
+  ),
 };
 
 export default function Privacy() {
   return (
     <LegalShell
-      title="Your information."
-      intro="What this waitlist collects, why it is used, and how to reach us about it."
-      draft
+      title="Privacy policy"
+      intro="This policy covers the Mayter website, email signup, and messages you send us."
+      page="privacy"
     >
-      <section>
-        <h2>Who this notice covers</h2>
+      <section id="scope">
+        <h2>About this policy</h2>
         <p>
-          This notice covers the Praxis website and early-access waitlist.
-          Contact the Praxis team at{' '}
-          <a href={contactLink('Privacy question')}>{legal.email}</a>. It does
-          not cover a future technician service or a future training-data
-          program.
+          Mayter runs this website. You can reach the team at{' '}
+          <a href={contactLink('Mayter privacy question')}>{legal.email}</a>.
+          This policy covers information collected through the website and
+          correspondence with us.
         </p>
       </section>
-      <section>
-        <h2>What we collect</h2>
+      <section id="information">
+        <h2>Information we collect</h2>
         <ul>
           <li>
-            <strong>Waitlist details:</strong> your email address, signup time,
-            and a record of the signup notice and how you joined.
+            <strong>Email signup.</strong> Your email address, signup date,
+            consent date, the notice version, and whether you signed up through
+            the form or a browser assistant.
           </li>
           <li>
-            <strong>Messages you send us:</strong> your email address and the
-            information you include in a contact or privacy request.
+            <strong>Messages.</strong> Your email address and the information
+            you include when you contact us.
           </li>
           <li>
-            <strong>Technical information:</strong> hosting infrastructure may
-            process IP addresses, browser information, request times, and error
-            logs to deliver and protect the website. These are separate from the
-            waitlist database.
+            <strong>Website requests.</strong> Cloudflare processes technical
+            information, such as IP addresses, request details, and error logs,
+            to serve and protect the site. These logs are separate from our
+            signup database.
           </li>
         </ul>
         <p>
-          The waitlist does not request job footage, audio, equipment records,
-          payment information, or a trade selection. Please do not email
-          confidential customer records or sensitive job material.
+          The signup form does not collect payment details, repair recordings,
+          audio, or information about your customers.
         </p>
       </section>
-      <section>
-        <h2>Why we use it</h2>
+      <section id="use">
+        <h2>How we use it</h2>
         <p>
-          We use waitlist information to manage your early-access request and
-          send the early-access emails you requested. We use correspondence to
-          answer questions and handle privacy requests, and technical
-          information to operate and protect the website.
+          We use your signup details to manage the update list and send the
+          development and early-access emails you request. We use messages to
+          answer questions and handle requests, and technical information to
+          keep the website running.
         </p>
         <p>
-          Where a legal basis is required, the proposed basis for early-access
-          emails is your consent; responding to requests and maintaining a
-          secure website are based on legitimate interests, subject to
-          applicable law. Joining is voluntary. You can browse without providing
-          an email.
+          Signing up does not give us permission to collect repair recordings or
+          use your work for AI training. A future data-collection program would
+          have its own terms and permission process.
         </p>
       </section>
-      <section>
-        <h2>Email signup is separate from AI training</h2>
+      <section id="providers">
+        <h2>Providers and sharing</h2>
         <p>
-          This website does not use waitlist email addresses to train AI.
-          Joining does not authorize collecting job recordings or using your
-          work to train technician or robotics models. Any future program would
-          need its own notice and separate permission before collection begins.
-        </p>
-      </section>
-      <section id="training-data">
-        <h2>How we plan to use training data</h2>
-        <p>
-          With permission, job examples, questions, repair outcomes, and expert
-          feedback can help train and evaluate the AI, improving guidance for
-          technicians over time.
+          Cloudflare hosts the website and stores signup records in its D1
+          database. Our email provider processes correspondence sent to our
+          contact address. These providers process information to deliver their
+          services.
         </p>
         <p>
-          A separate program could use recordings of tool use and physical tasks
-          to train robotics AI. Both the company and participating workers would
-          need to explicitly agree. Job footage would not automatically be sold
-          or shared for robotics training.
+          The website has no advertising, data-sale, or third-party marketing
+          integration. We may disclose information when legally required or
+          necessary to investigate misuse of the site.
         </p>
         <p>
-          These are plans for future programs, not data collected by this
-          waitlist. Any program would need its own notice and separate
-          permission before collection begins.
-        </p>
-      </section>
-      <section>
-        <h2>Service providers and disclosure</h2>
-        <p>
-          The site is built on Cloudflare hosting and database services. Hosting
-          providers process information needed to operate the website; email
-          providers process messages you send to our contact address. Access
-          should be limited to the people and providers who need it for the
-          purposes above.
-        </p>
-        <p>
-          The waitlist application has no sale, advertising-sharing, or
-          third-party marketing integration. Information may also need to be
-          disclosed when required by law.
-        </p>
-        <p>
-          Provider locations, retention settings, and any international-transfer
-          safeguards must be confirmed before this draft is published. We do not
-          currently promise storage in a particular country.
+          Provider processing may take place outside your country. We do not
+          promise that signup records or technical logs stay in a particular
+          country.
         </p>
       </section>
       <section id="cookies">
         <h2>Cookies and tracking</h2>
         <p>
-          The current website application does not set advertising or analytics
-          cookies, use tracking pixels, or store waitlist details in your
-          browser. It does not track browsing across other websites. It does not
-          change its behavior in response to Do Not Track because the
-          application has no cross-site tracking functionality.
+          The website application does not use advertising cookies, analytics
+          pixels, or cross-site tracking. It does not store signup details in
+          your browser. Hosting security services may process technical
+          information to detect abuse.
         </p>
         <p>
-          Hosting security services may process technical information. Any
-          change that adds nonessential tracking will require an updated notice
-          and any consent required by applicable law before that tracking
-          begins.
+          We do not change the application’s behavior in response to Do Not
+          Track signals because it does not track you across websites.
         </p>
       </section>
-      <section>
-        <h2>How long information is kept</h2>
+      <section id="retention">
+        <h2>Retention and removal</h2>
         <p>
-          The proposed retention approach is to keep waitlist details while
-          needed to administer early access, and remove them when the waitlist
-          closes or you request removal, unless a limited legal need requires
-          retention. A minimal record may be needed to honor an email opt-out.
-          Provider logs and backups have separate retention schedules.
+          We keep signup records while you are on the update list, until you ask
+          us to remove them or we close the list. Removal is handled manually
+          through the contact address below.
         </p>
         <p>
-          The exact retention schedule and deletion process are being finalized
-          before publication.
+          You can ask us to unsubscribe you, delete your signup record, or
+          provide or correct information you submitted. Use the email address
+          you signed up with so we can identify your record. We may need to
+          verify a request before sharing personal information.
+        </p>
+        <p>
+          A minimal record may be retained to honor an opt-out or meet a legal
+          obligation. Hosting logs, backups, and email correspondence are
+          handled separately under the relevant provider settings and the
+          purpose for which the information is needed.
         </p>
       </section>
-      <section>
-        <h2>Your choices and requests</h2>
+      <section id="requests">
+        <h2>Contact and privacy requests</h2>
         <p>
           Email{' '}
-          <a href={contactLink('Remove me from the Praxis waitlist')}>
-            {legal.email}
-          </a>{' '}
-          to withdraw your early-access email request or ask to leave the
-          waitlist. Use the email address you signed up with where possible. No
-          purchase or account is needed.
+          <a href={contactLink('Mayter privacy request')}>{legal.email}</a> with
+          your request. Depending on where you live, applicable law may give you
+          additional rights over your information or the right to contact a
+          privacy regulator.
         </p>
-        <p>
-          You can also ask to access, correct, or delete information about you.
-          Depending on applicable law, you may have rights to portability,
-          restriction, objection, appeal, or to complain to a data-protection
-          authority. We may need to verify a request before disclosing or
-          changing personal information. Withdrawing consent does not affect
-          earlier lawful processing.
-        </p>
+        <a
+          className="legal-action"
+          href={contactLink('Remove me from the Mayter waitlist')}
+        >
+          Request removal <span aria-hidden="true">↗</span>
+        </a>
       </section>
-      <section>
+      <section id="children">
         <h2>Children</h2>
         <p>
-          Praxis is intended for a professional audience. We do not knowingly
-          seek personal information from children under 13. If you believe a
-          child has submitted information, contact us to request removal.
+          This website is for a professional audience. We do not knowingly
+          collect personal information from children under 13. Contact us if you
+          believe a child has submitted information.
         </p>
       </section>
-      <section>
-        <h2>Changes to this notice</h2>
+      <section id="updates">
+        <h2>Policy updates</h2>
         <p>
-          Updates will appear here with a revised date. Material changes will be
-          highlighted on the website or communicated by email where appropriate.
-          A new purpose requiring consent will not be treated as covered by an
-          earlier waitlist signup.
+          We will post changes here and update the date above. If we introduce a
+          different use that requires permission, we will ask before using your
+          information that way.
         </p>
       </section>
     </LegalShell>

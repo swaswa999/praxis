@@ -1,64 +1,46 @@
-# Praxis
+# Mayter
 
-Praxis is a waitlist website for an AI assistant for skilled trades workers. The product direction is to put practical knowledge at the job, help newer technicians learn and work more independently, and let businesses grow without routing every routine question through a few senior people.
+The website for [Mayter](https://mayter.ai/), an automotive robotics company developing a rail-mounted arm with hot swappable tools. The training direction combines egocentric video and tactile data from mechanics’ work with a vision-language-action (VLA) model.
 
-- **Live website:** https://praxis.swayams.workers.dev/
-- **Private repository:** https://github.com/swaswa999/praxis
-- **Deployment:** Cloudflare Worker `praxis`, with D1 database `praxis-waitlist`.
+This repository contains the website and email signup service. It does not implement robot control, data recording, or model training. The repository remains [swaswa999/praxis](https://github.com/swaswa999/praxis).
 
-The website is functional; the technician assistant is a product concept. The equipment interactions illustrate intended assistance, not live AI responses. There is no model integration, recording feature, or implemented hands-free assistant in this repository.
+## Design and implementation
 
-## Product and design context
+The light design uses original SVG drawings and a shared vector wordmark. Scrolling moves the arm along the car and drives the attachment exchange. The training illustration has Video, Touch, and Practice states, with a scroll-controlled torque-wrench click. Motion respects reduced-motion preferences. No AI-generated raster images are used.
 
-The central message is **“Experience at your side. On every job.”** Praxis should help people understand the reasoning behind a task and handle more of it themselves. Describe access to experienced knowledge and stronger teams, rather than promising that a beginner becomes equivalent to a senior technician or that every job needs an expert handoff.
+The stack is React 19, TypeScript, Vinext, Vite, Cloudflare Workers, and D1. Vinext uses Next.js-style App Router files; this is not a conventional Next.js deployment.
 
-The current direction was deliberately chosen:
+| File                                                                      | Purpose                                                                           |
+| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `app/page.tsx`                                                            | Homepage content, navigation, and signup section                                  |
+| `app/service-system.tsx`, `app/service-experience.css`                    | Vehicle and rail-mounted arm SVG, scroll motion, tool exchange, responsive layout |
+| `app/training-sequence.tsx`, `app/training-sequence.css`                  | Training states and scroll-controlled wrench illustration                         |
+| `app/brand.tsx`, `app/brand.css`, `public/logo.svg`, `public/favicon.svg` | Wordmark and brand assets                                                         |
+| `app/mayter.css`, `app/landing.css`, `app/globals.css`                    | Shared layout and styling                                                         |
+| `app/scroll-details.tsx`                                                  | Section entrances                                                                 |
+| `app/layout.tsx`, `app/seo.ts`, `public/robots.txt`, `public/sitemap.xml` | Fonts, canonical URLs, metadata, and search discovery                             |
+| `app/waitlist.tsx`, `app/api/waitlist/route.ts`                           | Signup UI, browser-agent integration, and API validation                          |
+| `db/`, `drizzle/`                                                         | D1 storage, schema, and migrations                                                |
+| `app/legal-config.ts`, `app/privacy/`, `app/terms/`, `app/contact/`       | Signup notice, public policies, and contact page                                  |
+| `docs/privacy-operations.md`                                              | Manual privacy request handling                                                   |
+| `vite.config.ts`                                                          | Build and local Cloudflare bindings                                               |
+| `wrangler.mayter.json`                                                    | Mayter application deployment                                                     |
+| `cloudflare/mayter-domain.mjs`, `wrangler.mayter-domain.json`             | Gateway for the public domain                                                     |
 
-- Monochrome industrial styling, silver outlines, cursor effects, and cursor-driven text highlights.
-- Preserve the exploded motor in the hero and the refrigerator wireframe in section 01.
-- Keep the refrigerator's three points: **Identify, Understand, Act**. Their copy names Praxis directly and follows one cooling-problem example.
-- Keep interactions restrained. Extra toggles, a demo button, floating bubbles, and detailed lists beneath the refrigerator responses were removed.
-- “People first” explains independent learning, busy hands, and knowledge that scales across a team.
-- The team note uses **“we”**, opening with **“We like to work on our stuff…”**. The motivation includes greasy hands, difficulty using a phone, and unfamiliar problems where existing AI falls short.
-- The waitlist asks only for email. Do not restore the trade-selection field without a new product decision.
-- Top and closing calls to action intentionally return to the top of the page, where the signup form sits.
-- Keep em dashes out of website copy. Keep detailed training information in Privacy, with a short permission note and link on the landing page.
-- Treat the proposed “thousands of hours of field experience” as an aspiration, not a verified training-data total.
-
-## Stack and file map
-
-This is a **Vinext** application using React 19, TypeScript, Vite, and Next.js-style App Router files. It is not a conventional Next.js deployment. Styling combines CSS, Tailwind, and existing UI components. Cloudflare Workers serves the application; D1 stores signups.
-
-| File | Purpose |
-| --- | --- |
-| `app/page.tsx` | Landing page, waitlist form, team note, and browser-agent signup tool |
-| `app/experience.tsx` | Refrigerator selection state and section 01 copy |
-| `app/refrigerator-diagram.tsx` | Refrigerator wireframe |
-| `app/motor-hero.tsx` | Exploded motor and component captions |
-| `app/pointer-effects.tsx` | Silver cursor and interactive border effects |
-| `app/globals.css`, `app/experience.css`, `app/motor-hero.css` | Main visual styling and motion |
-| `app/layout.tsx` | Fonts, metadata, and shared styles |
-| `app/api/waitlist/route.ts` | Signup validation and API response handling |
-| `db/waitlist.ts`, `db/schema.ts`, `drizzle/` | D1 writes, schema, and migrations |
-| `app/legal-config.ts` | Contact email, legal draft flag, and signup notice version |
-| `app/privacy/`, `app/terms/`, `app/contact/` | Published information pages |
-| `vite.config.ts` | Vinext build and local Cloudflare bindings |
-| `wrangler.cloudflare.json` | Direct Cloudflare production deployment configuration |
+Earlier diagram components remain in the repository but are not used by the current homepage.
 
 ## Local development
 
-Use Node.js **22.13 or newer** and npm. Keep `package-lock.json` in sync when dependencies change.
+Use Node.js 22.13 or newer and npm.
 
 ```sh
 npm ci
-npm run dev -- --port 3001
+npm run dev -- --port 3000
 ```
 
-Open http://localhost:3001/. No AI API key is needed. The page can render before local database initialization, but successful signup storage requires the schema below.
+Open [localhost:3000](http://localhost:3000/). No AI API key is required. The pages render without a local database schema; successful signup storage requires initialization.
 
-### Initialize a fresh local waitlist database
-
-Build to generate the local Wrangler configuration, then apply the SQL files in order. Run this initialization only for a fresh local database; the SQL is not designed to be reapplied to an existing schema.
+For a **fresh local database only**, build the generated local configuration and apply the SQL files in order:
 
 ```sh
 npm run build
@@ -70,65 +52,62 @@ for migration in drizzle/*.sql; do
 done
 ```
 
-The Vite development server uses a placeholder D1 ID and state under `.wrangler/state`. Production uses the real database in `wrangler.cloudflare.json`. These are separate databases. Do not use the production configuration to initialize the development server's database.
+These SQL files are not intended to be reapplied to an existing schema. Local database state lives in `.wrangler/state` and uses the placeholder binding from `vite.config.ts`. Do not initialize local development with a production configuration. `npm start` previews the built Worker locally; it does not publish it.
 
-`npm start` runs a local preview of the built Worker. It does not publish the site.
-
-## Waitlist behavior
-
-`POST /api/waitlist` accepts JSON with `email`, `consent: true`, the current `noticeVersion`, and `source` (`website` or `webmcp`). The optional `website` field is a honeypot. Read `WAITLIST_NOTICE_VERSION` from `app/legal-config.ts` rather than hardcoding it into new clients.
-
-- Email addresses are trimmed and lowercased, with basic format and length validation.
-- A supplied cross-origin `Origin` is rejected. The route also checks content type, request size, notice version, and affirmative consent.
-- Email is the primary key. Repeat signups do not add rows; existing non-null consent fields are preserved, and missing consent fields can be populated.
-- Stored fields include email, creation time, consent time, signup source, and notice version. The nullable `trade` column is legacy and is not collected by the form.
-- The form displays success only after storage succeeds. Storage failures return a retry response.
-- There is no outbound email service, email-ownership verification, admin dashboard, or automated retention/deletion job. Joining stores a request; it does not send an email.
-- Waitlist permission is separate from permission to collect work recordings or train AI.
-
-To inspect the production signup count without exporting subscriber addresses:
+## Checks
 
 ```sh
-npx wrangler d1 execute DB --remote --config wrangler.cloudflare.json \
-  --command 'SELECT COUNT(*) AS signups FROM waitlist;'
+npx tsc --noEmit
+npm run lint
+npm run build
 ```
 
-Keep subscriber exports and authentication credentials out of Git. Local database state and backups are ignored.
+There is no dedicated automated test suite. For UI changes, check narrow phone layouts, forward and reverse scroll motion, attachment docking, the wrench click, training selections, keyboard focus, and reduced motion. Verify Contact, Privacy, Terms, and signup validation. Use local test data for successful signup tests.
 
-## Deploy to Cloudflare
+## Hosting and deployment
 
-The current deployment is owned by the Cloudflare account used to provision `praxis-waitlist`. Sign into that account before deploying. The database ID in the configuration is an identifier, not a credential. Another account needs its own database and configuration.
+The canonical address is **https://mayter.ai/**. HTTP and `www.mayter.ai` redirect to the HTTPS apex, preserving paths and query strings.
+
+Hosting spans two Cloudflare accounts:
+
+- **Silicon Sparks:** the `mayter` application Worker at `https://mayter.silicon-sparks.workers.dev/` and the existing `torquespec-waitlist` D1 database. The legacy `torquespec` Worker serves the same application and shares that database.
+- **TorqueSpec:** the `mayter.ai` domain and `mayter-domain` gateway Worker. The gateway forwards to the Mayter application, checks cross-origin writes, and rewrites upstream redirects. It has no database binding.
+
+Regular application deployments update the public domain automatically. Keep the Mayter Workers URL available: redirecting it back to `mayter.ai` would create a gateway loop. Gateway changes require access to the TorqueSpec account; application changes require Silicon Sparks access.
+
+For a UI-only release, authenticate to Silicon Sparks, build, and explicitly select the application configuration:
 
 ```sh
 npx wrangler login
 npx wrangler whoami
-npm run deploy:cloudflare
+npm run build
+npx wrangler deploy --config wrangler.mayter.json --keep-vars
 ```
 
-The deployment script builds the site, applies pending production D1 migrations, and publishes the Worker and static assets. It changes the live website and may change the production database. Inspect migrations before running it.
+To update the legacy TorqueSpec address with the same build:
 
-**Use `npm run deploy:cloudflare`, not a bare `wrangler deploy`.** The generated `dist/server/wrangler.json` contains local placeholder settings; the deployment script explicitly selects `wrangler.cloudflare.json` with the real production binding.
+```sh
+npx wrangler deploy --config wrangler.torquespec.json --keep-vars
+```
 
-After editing `db/schema.ts`, run `npm run db:generate`, inspect the generated SQL, and commit the migrations. Do not edit already-applied migration files to implement new schema changes.
+Do not deploy using the generated `dist/server/wrangler.json`; it contains local placeholder bindings. The `deploy:mayter` and `deploy:torquespec` npm scripts also apply production migrations, so the explicit commands above are preferable when the schema has not changed.
 
-GitHub pushes do not automatically deploy the site. Publishing is currently manual. Existing records on the older Sites deployment were not copied into the new Cloudflare database.
+For a database change, run `npm run db:generate`, review the SQL, and apply pending migrations deliberately with the matching production configuration before deploying. Do not rewrite migrations that have already been applied.
 
-## Validation and known follow-ups
+After release, verify the homepage, public information pages, static assets, canonical redirects, and signup validation at `mayter.ai`.
 
-Run `npm run build` after application changes. `npm run lint` and `npx tsc --noEmit` are available as additional checks. There is no dedicated automated test suite configured.
+GitHub pushes update the source repository. Cloudflare publishing uses the explicit deployment commands above.
 
-For changes to the user journey, check the three refrigerator selections, motor interaction, keyboard focus, narrow layouts, reduced motion, and signup error/success states. Use local test data where possible. If a production signup is tested, verify and remove only the synthetic record afterward.
+## Signup and privacy
 
-At the initial Cloudflare launch, the home, Privacy, Terms, Contact, and motor image returned successful responses. A test signup was verified in D1 and removed. These checks are a historical baseline, not a guarantee for later changes.
+`POST /api/waitlist` accepts JSON containing `email`, `consent: true`, the current `noticeVersion`, and `source` (`website` or `webmcp`). Read `WAITLIST_NOTICE_VERSION` from `app/legal-config.ts`. The optional `website` field is a honeypot.
 
-Privacy and Terms are **already published with draft labels**. The legal operator, jurisdiction, target countries, retention process, and provider details still need confirmation. The owner supplied `swayam@praxis.com`, but ownership and monitoring of that inbox have not been verified. Review the actual policy text and processes before removing draft labels; changing `legal.draft` alone does not resolve the draft content. These pages are not a certification of compliance.
+The endpoint validates origin, content type, request size, consent, and email format. Emails are normalized and deduplicated. Stored fields include email, creation time, consent time, signup source, and notice version. The legacy nullable `trade` field is not collected. Success is displayed only after storage succeeds.
 
-## Project history and preserved copies
+Signup permission covers development updates and early-access emails. It does **not** grant permission to record work or train AI. There is no outbound email provider, email-ownership verification, admin dashboard, or automated deletion job in this repository. Privacy requests are handled manually using the owner-supplied contact address in `app/legal-config.ts`.
 
-The project began as Guidehand and was renamed Praxis. The local folder remains `guidehand-experimental` under `Desktop/Projects`; that folder name is not the product name.
+Keep credentials, subscriber exports, local database state, and backups out of Git. The published policies describe this website and signup list, not a deployed robotics service.
 
-An original Guidehand website was preserved separately. This repository is the later Praxis version. Its older Sites publication remains at https://praxis.swayamshrimali.chatgpt.site/, while the Cloudflare URL above is the current address to share.
+## Legacy infrastructure
 
-`.openai/hosting.json` and the Sites Vite plugin remain for the earlier deployment path. Do not reuse the Sites project ID as a Cloudflare account or database ID. The direct Cloudflare configuration is separate.
-
-Local `backups/`, `EXPERIMENT.md`, `LEGAL-READINESS.md`, and `QUALITY-REVIEW.md` are intentionally excluded from Git. Some contain older paths or pre-publication notes; use this README and the current source for the present setup.
+The project previously used Guidehand, Praxis, and Manual Understanding branding. `wrangler.cloudflare.json` and `deploy:cloudflare` target the old Manual Understanding infrastructure and must not be used to deploy Mayter. `.openai/hosting.json` and the Sites plugin also remain from the earlier hosting path. Repository and database identifiers are retained for continuity; the current public brand and canonical domain are Mayter and `mayter.ai`.

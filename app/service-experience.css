@@ -1,0 +1,306 @@
+/* A single service-bay drawing follows the explanation through normal scrolling. */
+:root {
+  --background: #f8f9f5;
+  --foreground: #272d24;
+  --accent: #d94d2a;
+  --border: #d8ddd2;
+}
+.service-experience {
+  display: grid;
+  grid-template-columns: minmax(0, 0.93fr) minmax(0, 1.07fr);
+  grid-template-areas:
+    'opening figure'
+    'chapters figure';
+  column-gap: clamp(36px, 5vw, 80px);
+  position: relative;
+  padding-top: 28px;
+  align-items: start;
+}
+.service-opening {
+  grid-area: opening;
+  min-width: 0;
+  min-height: min(710px, 87vh);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 110px;
+}
+.mayter-hero .landing-copy h1 {
+  font-size: clamp(70px, 7.35vw, 112px);
+  line-height: 0.99;
+  font-weight: 460;
+  letter-spacing: -0.075em;
+}
+.landing-description {
+  max-width: 400px;
+  font-size: 17px;
+  line-height: 1.75;
+}
+.bay-figure {
+  grid-area: figure;
+  position: sticky;
+  top: 28px;
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 80px;
+  background: transparent;
+  border: 0;
+  overflow: visible;
+}
+.bay-drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(760px, calc(100svh - 110px));
+  aspect-ratio: 640/685;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.bay-robot-translate,
+.bay-robot-rotate {
+  transition: none;
+}
+.bay-figure[data-stage='1'] .bay-robot-translate > circle:first-of-type {
+  stroke: #b54323;
+}
+.bay-robot-translate {
+  filter: drop-shadow(0 5px 4px #55644420);
+}
+.bay-rail,
+.bay-tool-rack {
+  transition: opacity 0.5s;
+}
+.rail-active-line {
+  opacity: 0.2;
+  transition: opacity 0.5s;
+}
+.is-highlighted .rail-active-line {
+  opacity: 1;
+}
+.bay-tool-rack.is-highlighted > path:first-child {
+  stroke: #d74b28;
+}
+.service-chapters {
+  grid-area: chapters;
+  min-width: 0;
+  scroll-margin-top: 42px;
+  padding: 36px 0 80px;
+}
+.service-chapters > h2 {
+  font-size: clamp(36px, 4vw, 58px);
+  margin: 0 0 44px;
+}
+.service-chapter {
+  padding: 30px 0 38px;
+  border-top: 1px solid #d1d9c7;
+  position: relative;
+}
+.service-chapter::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: var(--accent);
+  transition: transform 0.7s ease;
+}
+.service-chapter.is-active::before {
+  transform: scaleX(1);
+}
+.service-chapter h3 {
+  font-size: clamp(24px, 2.35vw, 34px);
+  font-weight: 470;
+  letter-spacing: -0.04em;
+  line-height: 1.14;
+  margin: 0 0 15px;
+}
+.service-chapter h3 + p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #5f6b54;
+  max-width: 365px;
+}
+.mayter-hero {
+  padding-bottom: 10px;
+}
+/* Editorial entrance; the mechanism moves only when visitors scroll or choose a stage. */
+@media (prefers-reduced-motion: no-preference) {
+  .service-opening .headline-line {
+    animation: intro-rise 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .service-opening .headline-line + .headline-line {
+    animation-delay: 0.1s;
+  }
+  .bay-figure {
+    animation: bay-enter 1.1s ease both;
+  }
+  [data-reveal].is-revealed {
+    animation: section-arrive 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .principles [data-reveal]:nth-child(2).is-revealed {
+    animation-delay: 0.09s;
+  }
+  .principles [data-reveal]:nth-child(3).is-revealed {
+    animation-delay: 0.18s;
+  }
+}
+@keyframes intro-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes bay-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes section-arrive {
+  from {
+    opacity: 0.45;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.company-section .principles {
+  gap: 0;
+}
+.company-section .principles > div {
+  padding: 28px 32px 10px 0;
+  border-top: 1px solid #aeba9f;
+  position: relative;
+}
+.company-section .principles > div + div {
+  padding-left: 32px;
+}
+.company-section .principles > div::before {
+  content: '';
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  top: -4px;
+  left: 0;
+  border-radius: 50%;
+}
+.company-section .principles > div + div::before {
+  left: 32px;
+}
+.company-section .principles h3 {
+  font-size: 26px;
+  margin-top: 0;
+}
+.company-section .principles p {
+  line-height: 1.75;
+}
+.partner-section {
+  background: #e9eee0;
+}
+@media (min-width: 1500px) {
+  .service-opening {
+    min-height: 800px;
+  }
+}
+@media (max-width: 1000px) and (min-width: 801px) {
+  .service-experience {
+    column-gap: 28px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .mayter-hero .landing-copy h1 {
+    font-size: 7.5vw;
+  }
+  .service-opening {
+    min-height: 600px;
+  }
+}
+@media (max-width: 800px) {
+  .service-experience {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'opening'
+      'figure'
+      'chapters';
+    padding-top: 22px;
+    gap: 0;
+  }
+  .service-opening {
+    min-height: auto;
+    padding: 0 0 38px;
+    width: 100%;
+  }
+  .mayter-hero .landing-copy h1 {
+    font-size: clamp(50px, 12vw, 94px);
+  }
+  .landing-description {
+    max-width: 470px;
+    font-size: 16px;
+    margin-top: 24px;
+  }
+  .bay-figure {
+    position: static;
+    top: auto;
+    max-width: 560px;
+    aspect-ratio: 640 / 685;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .bay-drawing {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+  }
+  .service-chapters {
+    width: 100%;
+    padding: 66px 0;
+  }
+  .service-chapters > h2 {
+    font-size: 44px;
+  }
+  .service-chapter {
+    padding-block: 25px;
+  }
+  .service-chapter h3 {
+    font-size: 29px;
+  }
+  .service-chapter h3 + p {
+    max-width: 500px;
+  }
+  .company-section .principles {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .company-section .principles > div,
+  .company-section .principles > div + div {
+    padding: 24px 0 0 25px;
+  }
+  .company-section .principles > div::before,
+  .company-section .principles > div + div::before {
+    left: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bay-robot-translate,
+  .bay-robot-rotate,
+  .service-chapter::before {
+    transition: none;
+  }
+}
+
+@media (min-width: 801px) {
+  .service-chapter:last-of-type {
+    min-height: 420px;
+  }
+}

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 202 46" fill="none" role="img" aria-labelledby="title">
+  <title id="title">Mayter</title>
+  <g stroke="#24291f" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 33V8L20 24L35 8V33"/>
+  </g>
+  <circle cx="20" cy="24" r="1.65" fill="#d4502b"/>
+  <g stroke="#24291f" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M69 12V33M69 22C69 15.4 64.8 11 58.5 11C52.2 11 48 15.4 48 22C48 28.6 52.2 33 58.5 33C64.8 33 69 28.6 69 22Z"/>
+    <path d="M80 12L90 32M100 12L90 38C88.7 41 86.4 42 82 42"/>
+    <path d="M114 4V26C114 30.8 116.2 33 120.5 33H124M108 12H123"/>
+    <path d="M132 22H152C152 15.1 148 11 142 11C135.5 11 131 15.4 131 22C131 28.6 135.5 33 142.2 33C146.2 33 149.1 31.7 151.2 29.2"/>
+  </g>
+  <g stroke="#24291f" stroke-linejoin="round">
+    <path d="M166 32V17L177 11H184" stroke-width="6" stroke-linecap="round"/>
+    <g fill="#24291f" stroke="none"><circle cx="166" cy="17" r="4.7"/><circle cx="177" cy="11" r="4.7"/></g>
+    <g fill="#d4502b" stroke="none"><circle cx="166" cy="17" r="1.65"/><circle cx="177" cy="11" r="1.65"/></g>
+    <path d="M183.5 6.5V15.5" stroke-width="3.5"/>
+    <path d="M186 8H191L194 10M186 14H191L194 12" stroke-width="2.3"/>
+    <path d="M161 34H171" stroke-width="3"/>
+  </g>
+</svg>
