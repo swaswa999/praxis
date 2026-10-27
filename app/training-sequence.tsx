@@ -8,27 +8,27 @@ const steps = [
   {
     id: 'video',
     title: 'Video',
-    dataType: 'Egocentric Data',
+    dataType: 'Real shops',
     description:
-      'First-person video captures the part, the tool, and each step of a repair from the mechanic’s perspective.',
+      'First-person footage captures the tools, parts, and steps of real repairs.',
     imageDescription:
       'An illustration of a gloved mechanic turning a torque wrench on a wheel-hub fastener. Scrolling turns the wrench until the handle clicks.',
   },
   {
-    id: 'touch',
-    title: 'Touch',
-    dataType: 'Tactile data',
+    id: 'tires',
+    title: 'Tires',
+    dataType: 'Our first task',
     description:
-      'Glove sensors capture pressure and contact as a mechanic grips tools and works on parts.',
+      'Our industrial-arm prototype uses vision and a custom impact-gun attachment to remove lug nuts.',
     imageDescription:
-      'Contact patches follow the mechanic’s fingers as they turn the torque wrench. These are illustrative contact locations, not measured sensor readings.',
+      'An illustration of a mechanic using a torque wrench on a wheel-hub fastener.',
   },
   {
     id: 'practice',
-    title: 'Practice',
-    dataType: 'AI · VLA',
+    title: 'Beyond tires',
+    dataType: 'Brakes and more',
     description:
-      'Train the model to turn visual context and job instructions into robot movements, then test each task in the bay.',
+      'Next: brakes and fluid jobs, with AI agents guiding robots through each task.',
     imageDescription:
       'An illustration of a robotic gripper repeating the torque-wrench movement on the same wheel-hub fastener. Scrolling turns the wrench until the handle clicks.',
   },
@@ -134,13 +134,6 @@ function TrainingDrawing({
             />
           </g>
           {selected === 2 ? <RobotGrip /> : <MechanicGlove />}
-          {selected === 1 ? (
-            <g className="training-pressure" strokeLinejoin="round">
-              <path d="M206 177Q214 172 222 179L226 192Q219 198 211 192Z" />
-              <path d="M238 168Q246 164 253 174L258 187Q250 193 242 186Z" />
-              <path d="M268 174Q276 169 283 180L287 191Q279 198 272 191Z" />
-            </g>
-          ) : null}
         </g>
         <g className="training-ratchet" strokeLinejoin="round">
           <circle cx="428" cy="185" r="27" />
@@ -232,12 +225,11 @@ export function TrainingSequence({ id = 'mayter-training' }: { id?: string }) {
         <h2 id="technology-heading">
           Learning from
           <br />
-          mechanics.
+          real mechanics.
         </h2>
         <p className="training-intro">
-          We’re developing a vision-language-action (VLA) model for automotive
-          repair. Training pairs paid recordings of mechanics’ work with tactile
-          feedback.
+          We’ve partnered with 10 shops to film real repairs.
+          That footage, simulation, and teleoperation help train our robots.
         </p>
         <figure className="training-visual" id={visualId} ref={visual}>
           <TrainingDrawing

@@ -6,7 +6,7 @@ import { contactLink, legal } from '../legal-config';
 
 export const metadata: Metadata = pageMetadata(
   'Contact | Mayter',
-  'Email Mayter about robotics, shop partnerships, or your information.',
+  'Email Mayter about robotic auto shops, filming partnerships, or your information.',
   '/contact',
 );
 
@@ -14,7 +14,7 @@ export default function Contact() {
   return (
     <LegalShell
       title="Contact Mayter"
-      intro="For mechanics, shop owners, fleet teams, and anyone with a question."
+      intro="For drivers, mechanics, shop owners, and anyone with a question."
       page="contact"
     >
       <section className="contact-primary">
@@ -27,16 +27,16 @@ export default function Contact() {
       </section>
       <div className="contact-options">
         <section>
-          <h2>Shops and fleets</h2>
+          <h2>Mechanics and shop partners</h2>
           <p>
-            Tell us about your shop, the vehicles you service, and the
-            maintenance jobs you need help with.
+            We’re partnering with shops to film mechanics at work and teach our
+            robots, starting with tires. Tell us about your shop and your work.
           </p>
           <a
             className="legal-action"
-            href={contactLink('Mayter — shop or fleet enquiry')}
+            href={contactLink('Mayter — filming partnership')}
           >
-            Discuss your shop <ArrowUpRight size={18} aria-hidden="true" />
+            Discuss a partnership <ArrowUpRight size={18} aria-hidden="true" />
           </a>
         </section>
         <section>

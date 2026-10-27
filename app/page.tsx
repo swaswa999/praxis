@@ -23,13 +23,13 @@ export default function Home() {
         </a>
         <nav aria-label="Main navigation">
           <a className="nav-section" href="#approach">
-            The system
+            Why Mayter
           </a>
           <a className="nav-section" href="#robotics">
             Training
           </a>
           <a className="nav-section" href="#company">
-            Company
+            Our progress
           </a>
           <a className="nav-contact" href="#partner">
             Let’s talk <ArrowUpRight size={17} aria-hidden="true" />
@@ -41,22 +41,23 @@ export default function Home() {
         <section className="mayter-hero shell" aria-labelledby="headline">
           <ServiceSystem>
             <div className="landing-copy">
+              <p className="landing-status">In development · Tires first</p>
               <h1 id="headline">
                 <span className="headline-line">
-                  <span>Robots for</span>
+                  <span>Car service.</span>
                 </span>
                 <span className="headline-line">
                   <span>
-                    car service<span className="orange">.</span>
+                    After work<span className="orange">.</span>
                   </span>
                 </span>
               </h1>
               <p className="landing-description">
-                We’re building a rail-mounted robot with hot swappable tools,
-                powered by AI that learns from mechanics’ work.
+                Robot-powered mechanic shops, starting with tires. Our goal: book
+                online, come after work, and leave in 30 minutes with video proof.
               </p>
               <a className="action-link landing-link" href="#approach">
-                See the system <ArrowUpRight size={20} aria-hidden="true" />
+                Why Mayter <ArrowUpRight size={20} aria-hidden="true" />
               </a>
             </div>
           </ServiceSystem>
@@ -77,39 +78,63 @@ export default function Home() {
         >
           <div className="section-intro" data-reveal>
             <h2 id="company-heading">
-              Start with
+              What we’ve
               <br />
-              our own shop.
+              done.
             </h2>
-            <p>
-              We’ve worked in dealerships and independent shops and spoken with
-              mechanics about hiring and backlogs. We’re building Mayter to help
-              shops take on work they don’t have the staff for.
-            </p>
+            <p>From a model car to an industrial robot working on a real wheel.</p>
           </div>
-          <div className="principles">
-            <div data-reveal>
-              <h3>Run a Mayter shop.</h3>
+          <ul className="progress-list">
+            <li data-reveal>
+              <span className="progress-number" aria-hidden="true">
+                01
+              </span>
               <p>
-                Service customers’ cars in a Mayter shop while developing and
-                testing the robot.
+                Worked full-time inside <strong>two auto shops</strong>
               </p>
-            </div>
-            <div data-reveal>
-              <h3>Measure each job.</h3>
+            </li>
+            <li data-reveal>
+              <span className="progress-number" aria-hidden="true">
+                02
+              </span>
               <p>
-                Track repair quality, time, cost, and how often a person needs
-                to step in.
+                Visited <strong>60+ shops</strong> and talked to <strong>200+ customers</strong>
               </p>
-            </div>
-            <div data-reveal>
-              <h3>Supply other shops.</h3>
+            </li>
+            <li data-reveal>
+              <span className="progress-number" aria-hidden="true">
+                03
+              </span>
               <p>
-                Once the system is reliable, offer it to independent shops,
-                dealerships, and fleets.
+                Surveyed <strong>40 drivers</strong>: 70% took time off work for tire service
               </p>
-            </div>
-          </div>
+            </li>
+            <li data-reveal>
+              <span className="progress-number" aria-hidden="true">
+                04
+              </span>
+              <p>
+                Built a <strong>model-car wheel-removal demo</strong> with custom tools
+              </p>
+            </li>
+            <li data-reveal>
+              <span className="progress-number" aria-hidden="true">
+                05
+              </span>
+              <p>
+                Partnered with <strong>10 shops</strong> to film real repairs
+              </p>
+            </li>
+            <li data-reveal>
+              <span className="progress-number" aria-hidden="true">
+                06
+              </span>
+              <p>
+                Removed lug nuts from a <strong>real wheel with an industrial robot</strong>
+              </p>
+              <span className="progress-status">Prototype</span>
+            </li>
+          </ul>
         </section>
         <section
           className="partner-section"
@@ -122,8 +147,8 @@ export default function Home() {
                 Talk to us<span>.</span>
               </h2>
               <p>
-                Run a shop or fleet? Tell us which maintenance jobs you struggle
-                to keep up with.
+                Follow our first shop’s progress. Run a shop or a fleet?
+                Let’s talk.
               </p>
             </div>
             <div className="partner-form">
@@ -160,7 +185,7 @@ export default function Home() {
             <Link href="/terms">Terms</Link>
             <Link href="/contact">Contact</Link>
           </nav>
-          <span>Automotive robotics. In development.</span>
+          <span>Our first robotic auto shop. In development.</span>
         </div>
       </footer>
     </>

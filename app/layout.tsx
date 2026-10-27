@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 export const viewport: Viewport = { themeColor: '#fafbf7' };
 
 export const metadata: Metadata = {
-  ...pageMetadata('Mayter — Robotics for Automotive Service', SITE_DESCRIPTION),
+  ...pageMetadata('Mayter — Car Service After Work', SITE_DESCRIPTION),
   icons: { icon: '/favicon.svg' },
   robots: {
     index: true,

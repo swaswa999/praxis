@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const SITE_URL = 'https://mayter.ai';
 export const SITE_NAME = 'Mayter';
 export const SITE_DESCRIPTION =
-  'Mayter is developing a rail-mounted robot with hot swappable tools and a vision-language-action AI model for automotive repair.';
+  'Mayter is building robot-powered mechanic shops, starting with tires. Online booking, after-work visits, and video proof. In development.';
 
 export function pageMetadata(
   title: string,

@@ -12,22 +12,22 @@ import {
 
 const stages = [
   {
-    name: 'Rail',
-    title: 'Move along the car.',
+    name: 'Hours',
+    title: 'Open when you are.',
     description:
-      'A rail carries the arm between working positions. The car stays in one service bay.',
+      'We’re designing for after-work visits. Longer term: 24/7 maintenance for driverless fleets.',
   },
   {
-    name: 'Arm',
-    title: 'Reach the part.',
+    name: 'Shops',
+    title: 'Built around robots.',
     description:
-      'The arm positions each attachment at the vehicle. We’re developing it for oil changes and tire rotations first.',
+      'We own the shop and design the whole visit—from AI intake to robotic service.',
   },
   {
-    name: 'Tools',
-    title: 'Change the tool. Keep the arm.',
+    name: 'Training',
+    title: 'Tires first. More next.',
     description:
-      'Hot swappable attachments let one arm take on different jobs. Tools wait in a rack beside the rail.',
+      'Start with tires, then teach the same arms new maintenance tasks using real mechanic footage.',
   },
 ];
 
@@ -616,29 +616,35 @@ export function ServiceSystem({ children }: { children: ReactNode }) {
   return (
     <div className="service-experience" ref={root}>
       <div className="service-opening">{children}</div>
-      <section
-        className="service-chapters"
-        id="approach"
-        aria-labelledby="system-heading"
-      >
-        <h2 id="system-heading">
-          One arm.
-          <br />
-          More than one job.
-        </h2>
-        {stages.map((item, index) => (
-          <article
-            className={`service-chapter ${stage === index ? 'is-active' : ''}`}
-            key={item.name}
-            data-service-stage={index}
-          >
-            <div>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </div>
-          </article>
-        ))}
-      </section>
+      <div className="service-chapters">
+        <section
+          className="problem-copy"
+          id="problem"
+          aria-labelledby="problem-heading"
+        >
+          <h2 id="problem-heading">The problem.</h2>
+          <p>
+            A short tire job can take hours out of your day. In our survey of
+            40 drivers, 70% took time off work for tire service.
+            We’re building a shop that fits your schedule.
+          </p>
+        </section>
+        <section id="approach" aria-labelledby="system-heading">
+          <h2 id="system-heading">Why Mayter.</h2>
+          {stages.map((item, index) => (
+            <article
+              className={`service-chapter ${stage === index ? 'is-active' : ''}`}
+              key={item.name}
+              data-service-stage={index}
+            >
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </div>
+            </article>
+          ))}
+        </section>
+      </div>
       <figure className="bay-figure" data-stage={stage}>
         <BayDrawing stage={stage} carriageRef={carriage} />
       </figure>
